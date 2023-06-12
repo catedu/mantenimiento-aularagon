@@ -1,0 +1,27 @@
+# Docker-compose file para levantar un nginx simple 
+# para mostar index.html 
+# tras el nginx-proxy que se encuentra en la red
+# nginx-proxy_frontend externa
+
+version: '3'
+
+services:
+  nginx:
+    image: nginx
+    container_name: nginx
+    restart: always
+    volumes:
+      - ./html:/usr/share/nginx/html
+    networks:
+      - nginx-proxy_frontend
+    environment:
+      VIRTUAL_HOST: "${VIRTUAL_HOST}"
+      LETSENCRYPT_HOST: "${VIRTUAL_HOST}"
+      LETSENCRYPT_EMAIL: "${SSL_EMAIL}"
+    restart: unless-stopped
+
+
+networks:
+  nginx-proxy_frontend:
+    external:
+      name: nginx-proxy_frontend
