@@ -8,19 +8,21 @@ version: '3'
 services:
   nginx:
     image: nginx
-    container_name: nginx
     restart: unless-stopped
+    container_name: nginx
     volumes:
       - ./html:/usr/share/nginx/html
-    networks:
-      - nginx-proxy_frontend
+    # networks:
+    #   - nginx-proxy_frontend
+    ports:
+      - 81:80
     environment:
       VIRTUAL_HOST: "${VIRTUAL_HOST}"
       LETSENCRYPT_HOST: "${VIRTUAL_HOST}"
       LETSENCRYPT_EMAIL: "${SSL_EMAIL}"
 
 
-networks:
-  nginx-proxy_frontend:
-    external:
-      name: nginx-proxy_frontend
+# networks:
+#   nginx-proxy_frontend:
+#     external:
+#       name: nginx-proxy_frontend
